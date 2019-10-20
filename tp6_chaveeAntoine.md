@@ -146,4 +146,51 @@ sudo fdisk /dev/sdb
  selection num part
 </code>
 
+
+<li><h3> A l’aide de la commande pvcreate, créez un volume physique LVM. Validez qu’il est bien créé, en utilisant la commande pvdisplay
+</h3></li>
+*les commandes dess volumes physiques commencent par pv. Celles concernant les groupes s  par vg, et ogiques par lv.*
+
+<code>serveur@serveur:/dev$ sudo pvdisplay</code>
+
+<li><h3>A l’aide de la commande vgcreate, créez un groupe de volumes, qui pour l’instant ne contiendra que le volume physique créé à l’étape précédente. Vérifiez à l’aide de la commande vgdisplay
+</h3></li>
+
+*les groupes de volumes sont  vgxx , xx représente l’indice*
+
+<code>serveur@serveur:/dev$ sudo vgdisplay</code>
+
+<li><h3>Créez un volume logique appelé lvData occupant l’intégralité de l’espace disque disponible.
+</h3></li>
+
+*on reafecte  la taille d’un volume logique grace l’option -L  ou  l’option -l : -l 60%VG pour utiliser 60% de l’espace total*
+
+<code>serveur@serveur:/dev$ sudo lvcreate -l 100%FREE -n lvData VG00</code>
+
+<li><h3>Dans ce volume logique, créez une partition que vous formaterez en ext4, puis procédez comme dans l’exercice 1 pour qu’elle soit montée automatiquement, au démarrage de la machine, dans /data.
+</h3></li>
+
+*sa sert pour agrandir une partition à l’aide d’un nouveau disque*
+
+
+<li><h3>Utilisez la commande vgextend <nom_vg> <nom_pv> pour ajouter le nouveau disque au groupe de volumes
+</h3></li>
+ 
+*avec cette commande nous allons ajouter un nouveau disque a se groupe* 
+
+ <code>
+  vgextend vg_test /dev
+ </code>
+
+<li><h3>Utilisez la commande lvresize (ou lvextend) pour agrandir le volume logique. Enfin, il ne faut pas oublier de redimensionner le système de fichiers à l’aide de la commande resize2fs
+</h3></li>
+
+*pour etendre la partition nous allons utiliser la commande vue a la question 7*
+
+<code>sudo lvcreate -l 100%FREE</code>
+
+*pour étendre le système*
+
+<code>resize2fs chemins a redimentionner </code>
+
 </ol>
